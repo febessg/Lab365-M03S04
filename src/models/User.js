@@ -19,7 +19,7 @@ const User = connection.define('user', {
         type: STRING,
         allowNull: false
     }
-});
+}, {underscored: true, paranoid: true});
 
 
 module.exports = { User };

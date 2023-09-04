@@ -18,6 +18,6 @@ const Product = connection.define('product', {
     },
     logoUrl: STRING,
     category: STRING
-});
+}, {underscored: true, paranoid: true});
 
 module.exports = { Product }
