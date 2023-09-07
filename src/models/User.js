@@ -1,5 +1,6 @@
 const { INTEGER, STRING } = require('sequelize');
 const { connection } = require('../database/connection');
+const { Cart } = require('./Cart');
 
 const User = connection.define('user', {
     userId: {
@@ -21,5 +22,7 @@ const User = connection.define('user', {
     }
 }, {underscored: true, paranoid: true});
 
+Cart.belongsTo(User, {foreignKey: 'userId'});
+User.hasMany(Cart, {foreignKey: 'userId'});
 
 module.exports = { User };
