@@ -1,4 +1,4 @@
-const { create, findAll, findOne, login } = require('../controllers/user.controller');
+const { create, findAll, findOne, login, findCarts } = require('../controllers/user.controller');
 const { Router } = require('express');
 const {auth} = require('../middlewares/auth');
 
@@ -9,6 +9,7 @@ class UserRouter {
         userRoutes.get('/users', auth, findAll);
         userRoutes.get('/users/:userId', auth, findOne);
         userRoutes.post('/users/login', login);
+        userRoutes.get('/users/:userId/carts', findCarts);
 
         return userRoutes;
     }

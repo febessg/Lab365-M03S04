@@ -1,5 +1,6 @@
 const { sign } = require('jsonwebtoken');
 const {User} = require('../models/User');
+const { Cart } = require('../models/Cart');
 
 class UserController {
     async create(req, res) {
@@ -31,6 +32,7 @@ class UserController {
 
             const usersToShow = users.map((user) => {
                 return {
+                    userId: user.userId,
                     name: user.name,
                     email: user.email
                 }
@@ -50,7 +52,11 @@ class UserController {
             const {userId} = req.params;
             const user = await User.findByPk(userId);
 
-            return res.status(200).send(`Usuário: ${user.email} criado com sucesso`)
+            if (!user) {
+                return res.status(404).send({message: 'Usuário não encontrado'})
+            }
+
+            return res.status(200).send(`Usuário: ${user.email}`)
         } catch (error) {
             return res.status(400).send({
                 message: 'Erro ao listar o usuário',
@@ -90,6 +96,29 @@ class UserController {
                 message: 'Erro ao realizar login do usuário',
                 cause: error.message
             })            
+        }
+    }
+
+    async findCarts(req, res) {
+        try {
+            const {userId} = req.params;
+            const user = await User.findOne({
+                where: {
+                    userId: userId
+                }, include: 
+                    [{model: Cart, as: 'carts', key: 'user_id'}]
+            });
+
+            if (!user) {
+                return res.status(404).send({message: 'Usuário não encontrado'})
+            }
+
+            return res.status(200).send({user})
+        } catch (error) {
+            return res.status(400).send({
+                message: 'Erro ao listar o usuário',
+                cause: error.message
+            }) 
         }
     }
 };
