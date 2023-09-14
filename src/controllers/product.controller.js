@@ -1,4 +1,3 @@
-const { sign } = require('jsonwebtoken');
 const { Product } = require('../models/Product');
 
 class ProductController {
