@@ -1,7 +1,7 @@
 const {INTEGER} = require('sequelize');
 const {connection} = require('../database/connection');
 
-const ProductCart = connection.define('productCart', {
+const ProductCart = connection.define('product_cart', {
     productId: {
         type: INTEGER,
         references: {
