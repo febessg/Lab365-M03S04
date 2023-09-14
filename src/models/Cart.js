@@ -1,5 +1,7 @@
 const { INTEGER, FLOAT, BOOLEAN } = require('sequelize');
 const { connection } = require('../database/connection');
+const { Product } = require('../models/Product');
+const { ProductCart } = require('../models/ProductCart');
 
 const Cart = connection.define('cart', {
     cartId: {
@@ -23,5 +25,8 @@ const Cart = connection.define('cart', {
         type: BOOLEAN
     }
 });
+
+Product.belongsToMany(Cart, { through: ProductCart, foreignKey: 'productId', as: 'carts' });
+Cart.belongsToMany(Product, { through: ProductCart, foreignKey: 'cartId', as: 'products' });
 
 module.exports = { Cart };
